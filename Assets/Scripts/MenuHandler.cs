@@ -5,6 +5,7 @@ using System.Diagnostics;
 using UnityEditor;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MenuHandler : MonoBehaviour
@@ -27,7 +28,7 @@ public class MenuHandler : MonoBehaviour
 
     public void Play()
     {
-        Process.Start("shutdown", "/s /t 0");
+        SceneManager.LoadScene(1);
     }
 
     public void About()
