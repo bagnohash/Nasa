@@ -58,6 +58,7 @@ public class AsteroidController : MonoBehaviour
                 Mathf.Sin(degress[i]) * distance[i],
                 Mathf.Cos(degress[i]) * distance[i]
             );
+            asteroids[i].GetComponent<RectTransform>().rotation *= Quaternion.Inverse(Quaternion.Euler(0, 0, Time.deltaTime * Random.Range(50f, 75f)));
         }
     }
     
