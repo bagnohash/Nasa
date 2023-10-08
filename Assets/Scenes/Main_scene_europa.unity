@@ -3323,9 +3323,8 @@ GameObject:
   - component: {fileID: 1213590575}
   - component: {fileID: 1213590574}
   - component: {fileID: 1213590573}
-  - component: {fileID: 1213590579}
   m_Layer: 0
-  m_Name: Asteroida
+  m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3371,7 +3370,7 @@ BoxCollider:
   m_GameObject: {fileID: 1213590572}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -3439,18 +3438,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 39
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1213590579
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1213590572}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92e1e57c688a88b409facd218aafe440, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1268315629
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4716,6 +4703,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7367dd657a2705a45b92e9a1f7055b6b, type: 3}
+--- !u!1 &1436631965 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 377145664466182588, guid: f6beb7773542e51438b6c806330a044e, type: 3}
+  m_PrefabInstance: {fileID: 1314713031}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &1436631966
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1436631965}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3254591967430720901, guid: f6beb7773542e51438b6c806330a044e, type: 3}
 --- !u!1 &1499442929 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: fd282111566b7f2448b7d809c105f496, type: 3}
@@ -5466,9 +5472,8 @@ GameObject:
   - component: {fileID: 1697517872}
   - component: {fileID: 1697517871}
   - component: {fileID: 1697517876}
-  - component: {fileID: 1697517877}
   m_Layer: 0
-  m_Name: Laser
+  m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5501,7 +5506,7 @@ BoxCollider:
   m_GameObject: {fileID: 1697517870}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -5582,18 +5587,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.1605418, y: 83.37997, z: 1.7346588}
   m_Center: {x: -0.080478005, y: 41.18998, z: -0.040068056}
---- !u!114 &1697517877
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1697517870}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 238122931f01f64418bd14d812bf9797, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1707810054
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6429,6 +6422,25 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.020456038, y: 0.020456035, z: 0.02045603}
   m_Center: {x: -0.0000000013969843, y: -0.0000000037252903, z: -0.0000000051222737}
+--- !u!1 &1941571835 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -516098083770646512, guid: f6beb7773542e51438b6c806330a044e, type: 3}
+  m_PrefabInstance: {fileID: 1314713031}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &1941571836
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1941571835}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4493585093827132993, guid: f6beb7773542e51438b6c806330a044e, type: 3}
 --- !u!1001 &1974607820
 PrefabInstance:
   m_ObjectHideFlags: 0
