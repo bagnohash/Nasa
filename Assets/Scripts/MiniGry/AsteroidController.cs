@@ -16,6 +16,8 @@ public class AsteroidController : MonoBehaviour
 
     public GameObject asteroidPrefab;
     public GameObject targetPrefab;
+    public GameObject ogienDoGory;
+    public GameObject ogienDoDolu;
     
     private GameObject asteroid;
     private GameObject target;
@@ -58,10 +60,12 @@ public class AsteroidController : MonoBehaviour
                 Destroy(asteroid);
                 Destroy(target);
                 StartCoroutine(SpawnAsteroid());
+                shaker.Shake(0.5f);
             }
             else
             {
-                SceneManager.LoadScene(1);
+                target.GetComponent<Image>().color = new Color(0, 255, 0);
+                StartCoroutine(SwitchScene());
             }
         }
         
@@ -73,6 +77,28 @@ public class AsteroidController : MonoBehaviour
         );
         //asteroid.GetComponent<RectTransform>().rotation *= Quaternion.Inverse(Quaternion.Euler(0, 0, Time.deltaTime * Random.Range(50f, 75f)));
     }
+
+    IEnumerator SwitchScene()
+    {
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene(1);
+    }
+    
+    IEnumerator showOgien(bool gora)
+    {
+        if (gora)
+        {
+            ogienDoGory.SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+            ogienDoGory.SetActive(false);
+        }
+        else
+        {
+            ogienDoDolu.SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+            ogienDoDolu.SetActive(false);
+        }
+    }
     
     private void MoveAsteroid()
     {
@@ -80,15 +106,17 @@ public class AsteroidController : MonoBehaviour
         {
             if (lerper == null)
             {
-                asteroidNewDistance = asteroidDistance + 30f;
+                StartCoroutine(showOgien(true));
+                asteroidNewDistance = asteroidDistance + 50f;
                 lerper = Lerp();
                 StartCoroutine(lerper);
             }
         } else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            if (lerper == null) 
+            if (lerper == null)
             {
-                asteroidNewDistance = asteroidDistance - 30f;
+                StartCoroutine(showOgien(false));
+                asteroidNewDistance = asteroidDistance - 50f;
                 lerper = Lerp();
                 StartCoroutine(lerper);
             }
@@ -98,15 +126,14 @@ public class AsteroidController : MonoBehaviour
     IEnumerator Lerp()
     {
         float timeElapsed = 0f;
-        float duration = 1f;
+        float duration = 1.5f;
         while (timeElapsed < duration)
         {
-            asteroidDistance = Mathf.Lerp(asteroidDistance, asteroidNewDistance, timeElapsed / duration);
+            asteroidDistance = Mathf.Lerp(asteroidDistance, asteroidNewDistance, timeElapsed / (duration * 40));
             timeElapsed += Time.deltaTime;
             yield return null;
         }
         lerper = null;
-        asteroidDistance = asteroidNewDistance;
         
     }
 
@@ -178,6 +205,9 @@ public class AsteroidController : MonoBehaviour
 
         asteroid.AddComponent<FaceTarget>();
         asteroid.GetComponent<FaceTarget>().target = dupa.transform;
+
+        ogienDoGory = asteroid.transform.Find("OgienDoGory").gameObject;
+        ogienDoDolu = asteroid.transform.Find("OgienDoDolu").gameObject;
 
         yield return null;
         

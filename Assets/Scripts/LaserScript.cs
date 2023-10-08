@@ -61,9 +61,8 @@ public class LaserScript : MonoBehaviour
                 if (hit.transform.gameObject.layer == 16)
                 {
                     Debug.Log("dupa koniec");
-                    hit.transform.gameObject.GetComponent<Outline>().OutlineColor = new Color(0, 255, 0);
-                    stopkurwa = true;
-                    StartCoroutine(SwitchScene());
+                    var outline = hit.transform.gameObject;
+                    StartCoroutine(SwitchScene(outline));
                     break;
                 }
             }
@@ -89,8 +88,25 @@ public class LaserScript : MonoBehaviour
             }
         }
 
-        IEnumerator SwitchScene()
+        IEnumerator SwitchScene(GameObject outlineGameObject)
         {
+            var outline = outlineGameObject.GetComponent<Outline>();
+            stopkurwa = true;
+            int color = 255;
+            for (int j = 0; j < 3; j++)
+            {
+                while (outline.OutlineColor.a > 0f)
+                {
+                    outline.OutlineColor = new Color(0, 1, 0, outline.OutlineColor.a - 0.01f);
+                    yield return new WaitForSeconds(0.003f);
+                }
+                while (outline.OutlineColor.a < 1f)
+                {
+                    outline.OutlineColor = new Color(0, 1, 0, outline.OutlineColor.a + 0.01f);
+                    yield return new WaitForSeconds(0.003f);
+                }
+            }
+            
             yield return new WaitForSeconds(2f);
 
             SceneManager.LoadScene(1);

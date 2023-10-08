@@ -470,6 +470,8 @@ MonoBehaviour:
   dupa: {fileID: 1108695011}
   asteroidPrefab: {fileID: 4294651033545196149, guid: 8250a2eb47bee6b4989dbe9908ce3457, type: 3}
   targetPrefab: {fileID: 905526352512474404, guid: 5f85c25dc02a7694daeb0e836a2be8f4, type: 3}
+  ogienDoGory: {fileID: 0}
+  ogienDoDolu: {fileID: 0}
 --- !u!114 &1608428477
 MonoBehaviour:
   m_ObjectHideFlags: 0

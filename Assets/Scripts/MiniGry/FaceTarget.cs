@@ -12,5 +12,6 @@ public class FaceTarget : MonoBehaviour
 		v_diff = (target.position - transform.position);	
 		atan2 = Mathf.Atan2 ( v_diff.y, v_diff.x );
 		transform.rotation = Quaternion.Euler(0f, 0f, atan2 * Mathf.Rad2Deg );
+		transform.localEulerAngles += new Vector3(0, 0, -90f);
 	}
 }
