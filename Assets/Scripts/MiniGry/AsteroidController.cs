@@ -4,76 +4,113 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class AsteroidController : MonoBehaviour
 {
-    public RectTransform crosshair;
-    public float crosshairSpeed = 30f;
     public float asteroidSpeed = 0.9f;
     public CameraShake shaker;
     public GameObject dupa;
 
-    public int asteroidsCount = 5;
-    public int destroyedAsteroids = 0;
-    private List<GameObject> asteroids = new List<GameObject>();
-    private List<float> distance = new List<float>();
-    private List<float> degress = new List<float>();
-    
     public GameObject asteroidPrefab;
+    public GameObject targetPrefab;
+    
+    private GameObject asteroid;
+    private GameObject target;
+    private float asteroidDegree;
+    
+    private float asteroidDistance;
+    private float asteroidNewDistance;
+    
+    private float targetDegree;
+    private float t = 0;
+    private bool shouldLerp = false;
 
-    private IEnumerator SpawnAsteroids()
+    private IEnumerator lerper = null;
+
+    private bool stopkurwa = false;
+
+    private void UpdateAsteroid()
     {
-        for (int i = 0; i < asteroidsCount; i++)
+        if (asteroid == null) return;
+
+        /*if (shouldLerp)
         {
-            yield return new WaitForSeconds(Random.Range(3, 5));
-            
-            GameObject asteroid = Instantiate(asteroidPrefab);
-            asteroid.transform.SetParent(dupa.transform);
-            float degree = Random.Range(0, Mathf.PI);
-            float dist = Random.Range(160, 430);
-            Debug.Log(Mathf.Sin(degree) * dist);
-            asteroid.GetComponent<RectTransform>().anchoredPosition = new Vector2(
-                Mathf.Sin(degree) * dist,
-                Mathf.Cos(degree) * dist
-            );
+            asteroidDistance = Mathf.Lerp(asteroidDistance, asteroidNewDistance, t / 10f);
+            t += Time.deltaTime;
+            Debug.Log(t);
 
-            asteroids.Add(asteroid);
-            distance.Add(dist);
-            degress.Add(degree);
-        }
+            if (t >= 1)
+            {
+                shouldLerp = false;
+                t = 0;
+            }
+        }*/
 
-        yield return null;
-    }
-
-    private void UpdateAsteroids()
-    {
-        for (int i = 0; i < asteroids.Count; i++)
+        if (asteroidDistance <= 155f)
         {
-            if (asteroids[i] == null) continue;
-            
-            degress[i] += Time.deltaTime * asteroidSpeed;
-            asteroids[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(
-                Mathf.Sin(degress[i]) * distance[i],
-                Mathf.Cos(degress[i]) * distance[i]
-            );
-            asteroids[i].GetComponent<RectTransform>().rotation *= Quaternion.Inverse(Quaternion.Euler(0, 0, Time.deltaTime * Random.Range(50f, 75f)));
+            stopkurwa = true;
+            float diff = Mathf.Abs((asteroidDegree % (Mathf.PI * 2)) - targetDegree);
+            if (diff >= 0.15f)
+            {
+                Destroy(asteroid);
+                Destroy(target);
+                StartCoroutine(SpawnAsteroid());
+            }
+            else
+            {
+                SceneManager.LoadScene(1);
+            }
         }
+        
+        asteroidDegree += Time.deltaTime * asteroidSpeed;
+        asteroidDistance -= Time.deltaTime * 15f;
+        asteroid.GetComponent<RectTransform>().anchoredPosition = new Vector2(
+            Mathf.Sin(asteroidDegree) * asteroidDistance,
+            Mathf.Cos(asteroidDegree) * asteroidDistance
+        );
+        //asteroid.GetComponent<RectTransform>().rotation *= Quaternion.Inverse(Quaternion.Euler(0, 0, Time.deltaTime * Random.Range(50f, 75f)));
     }
     
-    private void MoveCrosshair()
+    private void MoveAsteroid()
     {
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            if (crosshair.anchoredPosition.y <= 430f) crosshair.position += new Vector3(0f, crosshairSpeed * Time.deltaTime, 0f);
-        } else if (Input.GetKey(KeyCode.DownArrow) && crosshair.position.y >= 0)
+            if (lerper == null)
+            {
+                asteroidNewDistance = asteroidDistance + 30f;
+                lerper = Lerp();
+                StartCoroutine(lerper);
+            }
+        } else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            if (crosshair.anchoredPosition.y >= 160f) crosshair.position -= new Vector3(0f, crosshairSpeed * Time.deltaTime, 0f);
+            if (lerper == null) 
+            {
+                asteroidNewDistance = asteroidDistance - 30f;
+                lerper = Lerp();
+                StartCoroutine(lerper);
+            }
         }
     }
 
-    private void CheckForHit()
+    IEnumerator Lerp()
+    {
+        float timeElapsed = 0f;
+        float duration = 1f;
+        while (timeElapsed < duration)
+        {
+            asteroidDistance = Mathf.Lerp(asteroidDistance, asteroidNewDistance, timeElapsed / duration);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        lerper = null;
+        asteroidDistance = asteroidNewDistance;
+        
+    }
+
+    /*private void CheckForHit()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -104,17 +141,51 @@ public class AsteroidController : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
     
     private void Update()
     {
-        MoveCrosshair();
-        UpdateAsteroids();
-        CheckForHit();
+        if (stopkurwa) return;
+        
+        MoveAsteroid();
+        UpdateAsteroid();
     }
 
     private void Start()
     {
-        StartCoroutine(SpawnAsteroids());
+        StartCoroutine(SpawnAsteroid());
+    }
+
+    IEnumerator SpawnAsteroid()
+    {
+        yield return new WaitForSeconds(2f);
+        
+        asteroid = Instantiate(asteroidPrefab);
+        asteroid.transform.SetParent(dupa.transform);
+        asteroidDegree = Random.Range(0, Mathf.PI);
+        asteroidDistance = Random.Range(160, 430);
+        asteroidNewDistance = asteroidDistance;
+
+        target = Instantiate(targetPrefab);
+        target.transform.SetParent(dupa.transform);
+        targetDegree = Random.Range(0, Mathf.PI * 2);
+        float targetDist = 150f;
+
+        asteroid.GetComponent<RectTransform>().anchoredPosition = new Vector2(
+            Mathf.Sin(asteroidDegree) * asteroidDistance,
+            Mathf.Cos(asteroidDegree) * asteroidDistance
+        );
+
+        asteroid.AddComponent<FaceTarget>();
+        asteroid.GetComponent<FaceTarget>().target = dupa.transform;
+
+        yield return null;
+        
+        target.GetComponent<RectTransform>().anchoredPosition = new Vector2(
+            Mathf.Sin(targetDegree) * targetDist,
+            Mathf.Cos(targetDegree) * targetDist
+        );
+
+        stopkurwa = false;
     }
 }
