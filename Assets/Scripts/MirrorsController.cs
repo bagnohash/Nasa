@@ -12,6 +12,8 @@ public class MirrorsController : MonoBehaviour
     
     private void Update()
     {
+        if (LaserScript.stopkurwa) return;
+        
         SwitchMirror();
         RotateMirror();
     }
