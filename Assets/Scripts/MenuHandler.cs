@@ -47,8 +47,9 @@ public class MenuHandler : MonoBehaviour
         aboutButton.SetActive(true);
         quitButton.SetActive(true);
 
-        returnButton.SetActive(false);
+        
         aboutPanel.SetActive(false);
+	returnButton.SetActive(false);
     }
 
 }
